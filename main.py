@@ -1,3 +1,6 @@
+import user_input
+
 
 if __name__ == '__main__':
-    print("Hello")
+    user_input.take_item()
+
