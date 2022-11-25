@@ -17,7 +17,8 @@ def create_tables():
         nutrientID INT,
         nutrientName VARCHAR(50),
         Amount FLOAT,
-        Unit VARCHAR(10)
+        Unit VARCHAR(10),
+        FOREIGN KEY (foodID) REFERENCES food(ID)
         );'''
     ]
     return commands

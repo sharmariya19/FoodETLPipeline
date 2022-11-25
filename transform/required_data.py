@@ -7,7 +7,7 @@ def put_food_data(df, food_item):
     insert_data.insert_food(food_item, df['description'][0], df['foodCategory'][0])
 
 
-def put_nutrients(df, food_id):
+def put_nutrients(df):
     for x in range(0, len(df)):
         if df[x]["nutrientName"] in required_nutrients:
             insert_data.food_nutrient(nutrient_id=df[x]["nutrientId"],
@@ -17,7 +17,7 @@ def put_nutrients(df, food_id):
 def put_data(df, food_item):
     try:
         put_food_data(df, food_item)
-        put_nutrients(df["foodNutrients"][0], df['foodId'][0])
+        put_nutrients(df["foodNutrients"][0])
     except Exception as e:
         print(e)
 

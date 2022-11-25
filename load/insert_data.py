@@ -26,7 +26,6 @@ def get_food_id():
     db_obj.connect()
     global id
     id = db_obj.get_id(sql)
-    print(id)
     return id
 
 

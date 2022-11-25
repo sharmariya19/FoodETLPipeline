@@ -37,7 +37,6 @@ class Database:
                     self.conn.commit()
                     self.cur.close()
 
-
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
@@ -51,8 +50,6 @@ class Database:
         self.cur = self.conn.cursor()
         self.cur.execute(query)
         var = self.cur.fetchone()
-        print(var)
-        self.conn.commit()
         self.cur.close()
         return var
 
