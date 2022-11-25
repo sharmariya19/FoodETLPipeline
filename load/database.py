@@ -7,11 +7,11 @@ class Database:
     """PostgreSQL Database class."""
 
     def __init__(self):
-        self.host = "localhost" #setting.POSTGRES_SERVER
-        self.username = "riya" #setting.POSTGRES_USER
-        self.password = "postgres" #setting.POSTGRES_PASSWORD
-        self.port = 5432  #setting.POSTGRES_PORT
-        self.dbname = "food" #setting.POSTGRES_DATABASE
+        self.host = setting.POSTGRES_SERVER
+        self.username = setting.POSTGRES_USER
+        self.password = setting.POSTGRES_PASSWORD
+        self.port = setting.POSTGRES_PORT
+        self.dbname = setting.POSTGRES_DATABASE
         self.conn = None
         self.cur = None
 
@@ -31,11 +31,12 @@ class Database:
                 for command in commands:
                     try:
                         self.cur.execute(command)
-                    except Exception as e:
+                    except:
                         pass
                 else:
                     self.conn.commit()
                     self.cur.close()
+
 
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
@@ -46,5 +47,12 @@ class Database:
         self.conn.commit()
         self.cur.close()
 
-db_obj = Database()
-db_obj.connect()
+    def get_id(self, query):
+        self.cur = self.conn.cursor()
+        self.cur.execute(query)
+        var = self.cur.fetchone()
+        print(var)
+        self.conn.commit()
+        self.cur.close()
+        return var
+

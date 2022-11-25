@@ -1,25 +1,33 @@
 from load import database
 
+global id
 
-def insert_food(food_id, item, description, food_category):
-    sql = f"""INSERT INTO food(ID, Item, Description, FoodCategory)
-                 VALUES({food_id}, '{item}', '{description}', '{food_category}');"""
-    print("a")
+
+def insert_food(item, description, food_category):
+    sql = f"""INSERT INTO food(Item, Description, FoodCategory)
+                 VALUES('{item}', '{description}', '{food_category}');"""
     db_obj = database.Database()
-    print("B")
     db_obj.connect()
-    print("c")
     db_obj.insert_rows(sql)
-    print("d")
 
 
-def food_nutrient(food_id, nutrient_id,nutrient_name, amount, unit):
+def food_nutrient(nutrient_id, nutrient_name, amount, unit):
+    food_id = get_food_id()
     sql = f"""INSERT INTO food_nutrient(foodid, nutrientid, nutrientname, amount, unit)
-                     VALUES({food_id}, {nutrient_id}, '{nutrient_name}',  {amount}, '{unit}');"""
+                     VALUES({food_id[0]}, {nutrient_id}, '{nutrient_name}',  {amount}, '{unit}');"""
     db_obj = database.Database()
     db_obj.connect()
     db_obj.insert_rows(sql)
 
+
+def get_food_id():
+    sql = f"""SELECT MAX(id) FROM food;"""
+    db_obj = database.Database()
+    db_obj.connect()
+    global id
+    id = db_obj.get_id(sql)
+    print(id)
+    return id
 
 
 
