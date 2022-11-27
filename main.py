@@ -1,6 +1,6 @@
-import user_input
+from user_input import InputData
 
 
 if __name__ == '__main__':
-    user_input.take_item()
+    InputData.read_item()
 

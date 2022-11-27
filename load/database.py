@@ -17,8 +17,10 @@ class Database:
 
     def connect(self):
         """Connect to a Postgres database."""
+
         if self.conn is None:
             try:
+
                 self.conn = psycopg2.connect(
                     host=self.host,
                     user=self.username,
@@ -27,29 +29,35 @@ class Database:
                     dbname=self.dbname
                 )
                 self.cur = self.conn.cursor()
-                commands = create_table.create_tables()
-                for command in commands:
-                    try:
-                        self.cur.execute(command)
-                    except:
-                        pass
-                else:
-                    self.conn.commit()
-                    self.cur.close()
-
+                self.tables()
+                self.conn.commit()
+                self.cur.close()
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
-    def insert_rows(self, query):
-        self.cur = self.conn.cursor()
-        self.cur.execute(query)
-        self.conn.commit()
-        self.cur.close()
+        return self.conn
 
-    def get_id(self, query):
-        self.cur = self.conn.cursor()
-        self.cur.execute(query)
-        var = self.cur.fetchone()
-        self.cur.close()
-        return var
+    def tables(self):
+
+        commands = create_table.create_tables()
+        while True:
+            try:
+                self.cur = self.conn.cursor()
+                command = (next(commands))
+                self.cur.execute(command)
+                self.conn.commit()
+                self.cur.close()
+            except StopIteration:
+                break
+            except:
+                pass
+
+    def insert_rows(self, query):
+        try:
+            self.cur = self.conn.cursor()
+            self.cur.execute(query)
+            self.conn.commit()
+            self.cur.close()
+        except:
+            pass
 

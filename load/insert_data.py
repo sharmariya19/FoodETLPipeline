@@ -1,33 +1,44 @@
-from load import database
-
-global id
+from load.database import Database
 
 
-def insert_food(item, description, food_category):
-    sql = f"""INSERT INTO food(Item, Description, FoodCategory)
-                 VALUES('{item}', '{description}', '{food_category}');"""
-    db_obj = database.Database()
-    db_obj.connect()
-    db_obj.insert_rows(sql)
+class InsertData:
+    @staticmethod
+    def insert_food(foodId, item, description, food_category):
+        sql = f"""INSERT INTO food(foodId, Item, Description, FoodCategory)
+                     VALUES({foodId}, '{item}', '{description}', '{food_category}');"""
 
+        db_obj = Database()
+        db_obj.connect()
+        db_obj.insert_rows(sql)
 
-def food_nutrient(nutrient_id, nutrient_name, amount, unit):
-    food_id = get_food_id()
-    sql = f"""INSERT INTO food_nutrient(foodid, nutrientid, nutrientname, amount, unit)
-                     VALUES({food_id[0]}, {nutrient_id}, '{nutrient_name}',  {amount}, '{unit}');"""
-    db_obj = database.Database()
-    db_obj.connect()
-    db_obj.insert_rows(sql)
+    @staticmethod
+    def food_nutrient(nutrient_id, amount, unit):
+        food_id = get_food_id()
+        sql = f"""INSERT INTO food_nutrient(foodid, nutrientid, amount, unit)
+                         VALUES({food_id[0]}, {nutrient_id}, {amount}, '{unit}');"""
+
+        db_obj = Database()
+        db_obj.connect()
+        db_obj.insert_rows(sql)
+
+    @staticmethod
+    def nutrients(id, nutrientName):
+        sql = f"""INSERT INTO nutrient(ID, nutrientName)
+                            VALUES({id}, '{nutrientName}');"""
+        db_obj = Database()
+        db_obj.connect()
+        db_obj.insert_rows(sql)
 
 
 def get_food_id():
     sql = f"""SELECT MAX(id) FROM food;"""
-    db_obj = database.Database()
+    db_obj = Database()
     db_obj.connect()
-    global id
-    id = db_obj.get_id(sql)
-    return id
-
-
+    cur = db_obj.conn.cursor()
+    cur.execute(sql)
+    foodid = cur.fetchone()
+    cur.close()
+    db_obj.conn.commit()
+    return foodid
 
 

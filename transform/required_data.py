@@ -1,24 +1,31 @@
-from load import insert_data
+from load.insert_data import InsertData
+from transform import nutrients
 
-required_nutrients = ['Protein', 'Total lipid (fat)', 'Sugars, total including NLEA', 'Calcium, Ca', 'Iron, Fe', 'Cholesterol', 'Energy', 'Carbohydrate, by difference']
+
+def put_food(df, food_item):
+    print("food item: ", food_item, "description: ", df['description'][0], "food category: ", df['foodCategory'][0])
+    InsertData.insert_food(df['foodId'][0], food_item, df['description'][0], df['foodCategory'][0])
 
 
-def put_food_data(df, food_item):
-    insert_data.insert_food(food_item, df['description'][0], df['foodCategory'][0])
+def put_food_nutrients(df):
+    for data in range(0, len(df)):
+        if df[data]["nutrientName"] in nutrients.required_nutrients:
+            InsertData.food_nutrient(nutrient_id=df[data]["nutrientId"], amount=df[data]["value"], unit=df[data]["unitName"])
 
 
 def put_nutrients(df):
-    for x in range(0, len(df)):
-        if df[x]["nutrientName"] in required_nutrients:
-            insert_data.food_nutrient(nutrient_id=df[x]["nutrientId"],
-                                      nutrient_name=df[x]["nutrientName"], amount=df[x]["value"], unit=df[x]["unitName"])
+    for nutrient in df:
+        if nutrient['nutrientName'] in nutrients.required_nutrients:
+            InsertData.nutrients(nutrient['nutrientId'], nutrient["nutrientName"] )
 
 
 def put_data(df, food_item):
     try:
-        put_food_data(df, food_item)
         put_nutrients(df["foodNutrients"][0])
-    except Exception as e:
-        print(e)
+    except:
+        pass
+    put_food(df, food_item)
+    put_food_nutrients(df["foodNutrients"][0])
+
 
 
