@@ -1,4 +1,4 @@
-from extract import retrieve_data, recipe
+from extract import food_data, recipe
 import pandas as pd
 
 
@@ -6,7 +6,7 @@ class InputData:
     @staticmethod
     def read_item():
         input_data = input("Enter a item: ")
-        retrieve_data.get_data(input_data)
+        food_data.get_data(input_data)
         InputData.recipe(input_data)
 
     @staticmethod
@@ -15,7 +15,7 @@ class InputData:
             input_data = pd.read_csv('/Users/apple/code/python/food.csv')
             for index, row in input_data.iterrows():
                 food_item = row[0]
-                retrieve_data.get_data(food_item)
+                food_data.get_data(food_item)
                 InputData.recipe(food_item)
         except:
             print("Can not find path of file")
