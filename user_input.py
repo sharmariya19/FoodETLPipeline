@@ -6,7 +6,7 @@ class InputData:
     @staticmethod
     def read_item():
         input_data = input("Enter a item: ")
-        # retrieve_data.get_data(input_data)
+        retrieve_data.get_data(input_data)
         InputData.recipe(input_data)
 
     @staticmethod
@@ -19,7 +19,6 @@ class InputData:
                 InputData.recipe(food_item)
         except:
             print("Can not find path of file")
-
 
     @staticmethod
     def recipe(food_item):
