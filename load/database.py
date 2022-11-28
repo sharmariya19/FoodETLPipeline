@@ -20,7 +20,6 @@ class Database:
 
         if self.conn is None:
             try:
-
                 self.conn = psycopg2.connect(
                     host=self.host,
                     user=self.username,
@@ -38,7 +37,6 @@ class Database:
         return self.conn
 
     def tables(self):
-
         commands = create_table.create_tables()
         while True:
             try:

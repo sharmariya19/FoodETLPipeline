@@ -34,7 +34,20 @@ class CreateTable:
         return command
 
 
+class CreateRecipeTable:
+    @staticmethod
+    def create_recipe_table():
+        command = '''CREATE TABLE recipe(
+                ID SERIAL PRIMARY KEY,
+                Item VARCHAR(100) NOT NULL,
+                Recipe VARCHAR(500)
+                );'''
+
+        return command
+
+
 def create_tables():
     yield CreateTable.create_food_table()
     yield CreateTable.create_nutrient_table()
     yield CreateTable.create_food_nutrient_table()
+    yield CreateRecipeTable.create_recipe_table()

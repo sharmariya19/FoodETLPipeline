@@ -28,4 +28,3 @@ def put_data(df, food_item):
     put_food_nutrients(df["foodNutrients"][0])
 
 
-

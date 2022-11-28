@@ -8,6 +8,7 @@ def get_data(food_item):
     try:
         response_api = requests.get(
             f'https://api.nal.usda.gov/fdc/v1/foods/search?&api_key={setting.API_KEY}&query={food_item}')
+        print("DG")
         data = response_api.text
         data = json.loads(data)
         check_response(data)
@@ -15,6 +16,7 @@ def get_data(food_item):
         print(e)
     else:
         preprocessing.transform_data(data, food_item)
+
 
 
 def check_response(data):
